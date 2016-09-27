@@ -1,9 +1,6 @@
 package com.xsp.stocksrelativity;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,20 +12,7 @@ public class StockDataDownload {
 
     public static void main(String[] args) throws IOException {
 
-        //http://table.finance.yahoo.com/table.csv?s=000001.sz
-//        IOUtils.copy(new URL("http://table.finance.yahoo.com/table.csv?s=000001.sz").openStream(),
-//                new FileOutputStream("000001sz.csv"));
-//        IOUtils.copy(new URL("https://www.baidu.com").openStream(),
-//                new FileOutputStream("000001sz.html"));
-
-        URL url = new URL("http://table.finance.yahoo.com/table.csv?s=000001.sz");
-        try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-            for (String line; (line = reader.readLine()) != null; ) {
-                System.out.println(line);
-            }
-        } catch (Exception e) {
-        }
+        new StockDataDownload().writeChineseAStocksDataFromCtxalgoToFile();
 
 
     }
@@ -42,12 +26,61 @@ public class StockDataDownload {
         return null;
     }
 
+    public String getChineseAStocksFromCtxalgoOnline() {
+        String s = "";
+        try {
 
-    public List<String> getStocksDataFromYahho(String urlString) {
+            URL url = new URL("http://ctxalgo.com/api/stocks");
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            for (String line; (line = reader.readLine()) != null; ) {
+                s += line;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
+
+    public String getChineseAStocksFromCtxalgoFile() {
+        String result = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("chinese_a_stocks_ctxalgo.json"));
+            String s = null;
+            while ((s = br.readLine()) != null) {
+                result += s;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public void writeChineseAStocksDataFromCtxalgoToFile(){
+        String s = getChineseAStocksFromCtxalgoOnline();
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter("chinese_a_stocks_ctxalgo.json"));
+            bw.write(s);
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     *
+     * @param code example 000001.sz
+     * @param type
+     * @return
+     */
+    public List<String> getStocksDataFromYahho(String code, String type) {
         List<String> list = new ArrayList<String>();
 
         try {
-            URL url = new URL(urlString);
+            // http://table.finance.yahoo.com/table.csv?s=000001.sz
+            URL url = new URL("http://table.finance.yahoo.com/table.csv?s=" + code);
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             String line = reader.readLine();
             for (; (line = reader.readLine()) != null; ) {

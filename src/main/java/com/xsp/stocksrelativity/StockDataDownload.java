@@ -1,9 +1,12 @@
 package com.xsp.stocksrelativity;
 
+import org.json.JSONObject;
+
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by shpng on 2016/9/25.
@@ -11,10 +14,37 @@ import java.util.List;
 public class StockDataDownload {
 
     public static void main(String[] args) throws IOException {
+        StockDataDownload sdd = new StockDataDownload();
+        String s = sdd.getChineseAStocksFromCtxalgoFile();
+        JSONObject jo = new JSONObject(s);
+        System.out.println(jo.toMap());
+        sdd.downStocksDataFromYahoo();
+    }
 
-        new StockDataDownload().writeChineseAStocksDataFromCtxalgoToFile();
+    public void downStocksDataFromYahoo() {
 
+        StockDataDownload sdd = new StockDataDownload();
+        String s = sdd.getChineseAStocksFromCtxalgoFile();
+        JSONObject jo = new JSONObject(s);
+        Map<String, Object> map = jo.toMap();
+        for (String key : map.keySet()) {
+            String szOrsh = key.substring(0, 2);
+            String code = key.substring(2);
+            String newcode = code + "." + szOrsh;
+            if ("sh".compareTo(szOrsh) == 0) {
+                newcode = code + "." + "ss";
+            }
+            List<String> data = getStocksDataFromYahoo(newcode, null);
+            if (data.size() > 0) {
+                writeYahooStocksDataToFile(key, data);
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
+        }
     }
 
     /**
@@ -57,6 +87,7 @@ public class StockDataDownload {
         return result;
     }
 
+
     public void writeChineseAStocksDataFromCtxalgoToFile(){
         String s = getChineseAStocksFromCtxalgoOnline();
         try {
@@ -75,12 +106,14 @@ public class StockDataDownload {
      * @param type
      * @return
      */
-    public List<String> getStocksDataFromYahho(String code, String type) {
+    public List<String> getStocksDataFromYahoo(String code, String type) {
         List<String> list = new ArrayList<String>();
 
         try {
             // http://table.finance.yahoo.com/table.csv?s=000001.sz
-            URL url = new URL("http://table.finance.yahoo.com/table.csv?s=" + code);
+            String urlStr = "http://table.finance.yahoo.com/table.csv?s=" + code;
+            URL url = new URL(urlStr);
+            System.out.println(urlStr);
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
             String line = reader.readLine();
             for (; (line = reader.readLine()) != null; ) {
@@ -91,5 +124,17 @@ public class StockDataDownload {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public void writeYahooStocksDataToFile(String code, List<String> data) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(code + ".txt"));
+            for (String s : data) {
+                bw.write(s+"\n");
+            }
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

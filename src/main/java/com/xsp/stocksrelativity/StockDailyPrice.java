@@ -1,6 +1,10 @@
 package com.xsp.stocksrelativity;
 
+import org.apache.commons.beanutils.BeanMap;
+
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by zhangxiong on 2016-09-27.
@@ -14,6 +18,7 @@ public class StockDailyPrice {
     private double low;
     private double close;
     private long volumn;
+    private double adjclose;
     /**
      * 涨跌幅
      */
@@ -81,5 +86,25 @@ public class StockDailyPrice {
 
     public void setChange(double change) {
         this.change = change;
+    }
+
+    public double getAdjclose() {
+        return adjclose;
+    }
+
+    public void setAdjclose(double adjclose) {
+        this.adjclose = adjclose;
+    }
+
+    @Override
+    public String toString() {
+        return new HashMap(new BeanMap(this)).toString();
+    }
+
+    public static void main(String args[]) {
+        StockDailyPrice s = new StockDailyPrice();
+        s.setChange(1);
+        s.setCode("1222");
+        System.out.println(s);
     }
 }

@@ -17,8 +17,9 @@ public class StockDataDownload {
         StockDataDownload sdd = new StockDataDownload();
         String s = sdd.getChineseAStocksFromCtxalgoFile();
         JSONObject jo = new JSONObject(s);
-        System.out.println(jo.toMap());
-        sdd.downStocksDataFromYahoo();
+        Map map = jo.toMap();
+        System.out.println(map.size());
+        System.out.println(sdd.readStockDailyPriceFromTxt("600200", "sh"));
     }
 
     public void downStocksDataFromYahoo() {
@@ -47,12 +48,37 @@ public class StockDataDownload {
         }
     }
 
+    public List<StockDailyPrice> readStockDailyPriceFromTxt(String code, String szorsh) {
+        List<StockDailyPrice> list = new ArrayList<StockDailyPrice>();
+        try {
+
+            BufferedReader reader = new BufferedReader(new FileReader(szorsh+code+".txt"));
+            for (String line; (line = reader.readLine()) != null; ) {
+                StockDailyPrice sdp = new StockDailyPrice();
+                String []ss = line.split(",");
+                //Date	Open	High	Low	Close	Volume	Adj Close
+                sdp.setDate(ss[0]);
+                sdp.setOpen(Double.valueOf(ss[1]));
+                sdp.setHigh(Double.valueOf(ss[2]));
+                sdp.setLow(Double.valueOf(ss[3]));
+                sdp.setClose(Double.valueOf(ss[4]));
+                sdp.setVolumn(Long.valueOf(ss[5]));
+                sdp.setAdjclose(Double.valueOf(ss[6]));
+                sdp.setChange(sdp.getClose()/sdp.getOpen() - 1);
+                System.out.println(sdp);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     /**
-     *
      * @param type 哪个交易所
      * @return
      */
-    public List<Stock> getStocks(String type){
+    public List<Stock> getStocks(String type) {
         return null;
     }
 
@@ -88,7 +114,7 @@ public class StockDataDownload {
     }
 
 
-    public void writeChineseAStocksDataFromCtxalgoToFile(){
+    public void writeChineseAStocksDataFromCtxalgoToFile() {
         String s = getChineseAStocksFromCtxalgoOnline();
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("chinese_a_stocks_ctxalgo.json"));
@@ -101,7 +127,6 @@ public class StockDataDownload {
 
 
     /**
-     *
      * @param code example 000001.sz
      * @param type
      * @return
@@ -130,7 +155,7 @@ public class StockDataDownload {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(code + ".txt"));
             for (String s : data) {
-                bw.write(s+"\n");
+                bw.write(s + "\n");
             }
             bw.close();
         } catch (IOException e) {

@@ -1,12 +1,11 @@
 package com.xsp.stocksrelativity;
 
+import org.json.JSONObject;
+
 import javax.xml.transform.Templates;
 import java.io.File;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by zhangxiong on 2016-09-29.
@@ -14,6 +13,8 @@ import java.util.Map;
 public class StocksTest {
 
     static Map<String, List<StockDailyPrice>> map = new HashMap<String, List<StockDailyPrice>>();
+
+    static Map<String, Stock> stockMap = new HashMap<String, Stock>();
 
     public static void loadStocks() {
         File file = new File(".");
@@ -37,16 +38,30 @@ public class StocksTest {
         double least = Double.MAX_VALUE;
         String targetCode1 = "";
         int count = 0;
+        List<Object[]> list = new ArrayList<Object[]>();
         for (String code1 : map.keySet()) {
-            double temp = StockRelativityCalculate.calculateStockRelativity(map.get(code), map.get(code1));
-            if (temp < least) {
-                least = temp;
-                targetCode1 = code1;
+            if (code1.equals(code)) {
+                continue;
             }
+            double temp = StockRelativityCalculate.calculateStockRelativity(map.get(code), map.get(code1));
+            Object[] cal = new Object[2];
+            cal[0] = code1;
+            cal[1] = temp;
+            list.add(cal);
         }
-        System.out.println("least" + least);
-        System.out.println(targetCode1);
-        compareStockChange(map.get(targetCode1), map.get(code));
+        Collections.sort(list, new Comparator<Object[]>() {
+            public int compare(Object[] o1, Object[] o2) {
+                Double d1 = (Double) o1[1];
+                Double d2 = (Double) o2[1];
+                return d1 > d2 ? 1 : (d1 < d2 ? -1 : 0);
+            }
+        });
+        for(int index = 0;index<10;index++) {
+            System.out.printf("%s  %s  %.5f\n", list.get(index)[0], stockMap.get(list.get(index)[0]), list.get(index)[1]);
+        }
+//        System.out.println("least" + least);
+//        System.out.println(targetCode1);
+//        compareStockChange(map.get(targetCode1), map.get(code));
     }
 
     public static void calculateRelativity() {
@@ -93,8 +108,23 @@ public class StocksTest {
         }
     }
 
+    public static void loadStockInfo() {
+        String s = StockDataDownload.getChineseAStocksFromCtxalgoFile();
+        JSONObject jo = new JSONObject(s);
+        Map<String, Object> map = jo.toMap();
+        for (String key : map.keySet()) {
+            Stock stock = new Stock();
+            String szOrsh = key.substring(0, 2);
+            String code = key.substring(2);
+            String chinese = (String) map.get(key);
+            stock.setName(chinese);
+            stockMap.put(code, stock);
+        }
+    }
+
     public static void main(String[] args) {
+        loadStockInfo();
         loadStocks();
-        calculateRelativity();
+        calculateRelativityOfSomeCode("600170");
     }
 }

@@ -106,7 +106,7 @@ public class StockDataDownload {
         return s;
     }
 
-    public String getChineseAStocksFromCtxalgoFile() {
+    public static String getChineseAStocksFromCtxalgoFile() {
         String result = "";
         try {
             BufferedReader br = new BufferedReader(new FileReader("chinese_a_stocks_ctxalgo.json"));

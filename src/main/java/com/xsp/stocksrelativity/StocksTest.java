@@ -57,7 +57,7 @@ public class StocksTest {
             }
         });
         for(int index = 0;index<10;index++) {
-            System.out.printf("%s  %s  %.5f\n", list.get(index)[0], stockMap.get(list.get(index)[0]), list.get(index)[1]);
+            System.out.printf("%s  %s  %.5f\n", list.get(index)[0], stockMap.get(list.get(index)[0]).getName(), list.get(index)[1]);
         }
 //        System.out.println("least" + least);
 //        System.out.println(targetCode1);

@@ -7,6 +7,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by shpng on 2016/9/25.
@@ -14,41 +16,45 @@ import java.util.Map;
 public class StockDataDownload {
 
     public static void main(String[] args) throws IOException {
-        StockDataDownload sdd = new StockDataDownload();
-        String s = sdd.getChineseAStocksFromCtxalgoFile();
-        JSONObject jo = new JSONObject(s);
-        Map map = jo.toMap();
-        System.out.println(map.size());
-        System.out.println(sdd.readStockDailyPriceFromTxt("600200", "sh"));
+//        StockDataDownload sdd = new StockDataDownload();
+//        String s = sdd.getChineseAStocksFromCtxalgoFile();
+//        JSONObject jo = new JSONObject(s);
+//        Map map = jo.toMap();
+//        System.out.println(map.size());
+//        System.out.println(sdd.readStockDailyPriceFromTxt("600200", "sh"));
+        downStocksDataFromYahoo();
     }
 
-    public void downStocksDataFromYahoo() {
-
+    public static void downStocksDataFromYahoo() {
+        ExecutorService es = Executors.newFixedThreadPool(10);
         StockDataDownload sdd = new StockDataDownload();
         String s = sdd.getChineseAStocksFromCtxalgoFile();
         JSONObject jo = new JSONObject(s);
         Map<String, Object> map = jo.toMap();
         for (String key : map.keySet()) {
-            String szOrsh = key.substring(0, 2);
-            String code = key.substring(2);
-            String newcode = code + "." + szOrsh;
-            if ("sh".compareTo(szOrsh) == 0) {
-                newcode = code + "." + "ss";
-            }
-            List<String> data = getStocksDataFromYahoo(newcode, null);
-            if (data.size() > 0) {
-                writeYahooStocksDataToFile(key, data);
-            }
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            final String kk = new String(key);
+            es.execute(new Runnable() {
+                public void run() {
+
+                    String szOrsh = kk.substring(0, 2);
+                    String code = kk.substring(2);
+                    String newcode = code + "." + szOrsh;
+                    if ("sh".compareTo(szOrsh) == 0) {
+                        newcode = code + "." + "ss";
+                    }
+                    List<String> data = getStocksDataFromYahoo(newcode, null);
+                    if (data.size() > 0) {
+                        writeYahooStocksDataToFile(kk, data);
+                    }
+
+                }
+            });
+
 
         }
     }
 
-    public List<StockDailyPrice> readStockDailyPriceFromTxt(String code, String szorsh) {
+    public static List<StockDailyPrice> readStockDailyPriceFromTxt(String code, String szorsh) {
         List<StockDailyPrice> list = new ArrayList<StockDailyPrice>();
         try {
 
@@ -65,7 +71,8 @@ public class StockDataDownload {
                 sdp.setVolumn(Long.valueOf(ss[5]));
                 sdp.setAdjclose(Double.valueOf(ss[6]));
                 sdp.setChange(sdp.getClose()/sdp.getOpen() - 1);
-                System.out.println(sdp);
+                list.add(sdp);
+                //System.out.println(sdp);
             }
 
         } catch (Exception e) {
@@ -131,7 +138,7 @@ public class StockDataDownload {
      * @param type
      * @return
      */
-    public List<String> getStocksDataFromYahoo(String code, String type) {
+    public static List<String> getStocksDataFromYahoo(String code, String type) {
         List<String> list = new ArrayList<String>();
 
         try {
@@ -151,7 +158,7 @@ public class StockDataDownload {
         return list;
     }
 
-    public void writeYahooStocksDataToFile(String code, List<String> data) {
+    public static void writeYahooStocksDataToFile(String code, List<String> data) {
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(code + ".txt"));
             for (String s : data) {

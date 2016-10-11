@@ -22,7 +22,7 @@ public class StockDataDownload {
 //        Map map = jo.toMap();
 //        System.out.println(map.size());
 //        System.out.println(sdd.readStockDailyPriceFromTxt("600200", "sh"));
-        downStocksDataFromYahoo();
+        getFundData();
     }
 
     public static void downStocksDataFromYahoo() {
@@ -168,5 +168,31 @@ public class StockDataDownload {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * @param code example 000001.sz
+     * @param type
+     * @return
+     */
+    public static void getFundData() {
+
+
+        try {
+            // http://table.finance.yahoo.com/table.csv?s=000001.sz
+            String urlStr = "http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=519983&page=3&per=20&sdate=&edate=&rt=0.7161785762886255";
+            URL url = new URL(urlStr);
+            System.out.println(urlStr);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            String line = reader.readLine();
+            System.out.println(line);
+            for (; (line = reader.readLine()) != null; ) {
+                System.out.println(line);
+            }
+        } catch (Exception e) {
+            //TODO error
+            e.printStackTrace();
+        }
+
     }
 }

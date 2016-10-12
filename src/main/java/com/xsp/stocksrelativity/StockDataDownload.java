@@ -22,7 +22,7 @@ public class StockDataDownload {
 //        Map map = jo.toMap();
 //        System.out.println(map.size());
 //        System.out.println(sdd.readStockDailyPriceFromTxt("600200", "sh"));
-        getFundData();
+        getStockDataFromSohu();
     }
 
     public static void downStocksDataFromYahoo() {
@@ -183,7 +183,7 @@ public class StockDataDownload {
             String urlStr = "http://fund.eastmoney.com/f10/F10DataApi.aspx?type=lsjz&code=519983&page=3&per=20&sdate=&edate=&rt=0.7161785762886255";
             URL url = new URL(urlStr);
             System.out.println(urlStr);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "GBK"));
             String line = reader.readLine();
             System.out.println(line);
             for (; (line = reader.readLine()) != null; ) {
@@ -195,4 +195,27 @@ public class StockDataDownload {
         }
 
     }
+
+    //http://q.stock.sohu.com/hisHq?code=cn_000001&start=20160602&end=20161011&stat=1&order=D&period=d&callback=historySearchHandler&rt=jsonp&r=0.2570124812116552&0.6611461189293653
+    public static void getStockDataFromSohu() {
+
+
+        try {
+            // http://table.finance.yahoo.com/table.csv?s=000001.sz
+            String urlStr = "http://q.stock.sohu.com/hisHq?code=cn_000001&start=20160602&end=20161011&stat=1&order=D&period=d&callback=historySearchHandler&rt=jsonp&r=0.2570124812116552&0.6611461189293653";
+            URL url = new URL(urlStr);
+            System.out.println(urlStr);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream(), "GBK"));
+            String line = reader.readLine();
+            System.out.println(line);
+            for (; (line = reader.readLine()) != null; ) {
+                System.out.println(line);
+            }
+        } catch (Exception e) {
+            //TODO error
+            e.printStackTrace();
+        }
+
+    }
+
 }

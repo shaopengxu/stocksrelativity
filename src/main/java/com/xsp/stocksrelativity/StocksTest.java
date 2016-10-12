@@ -122,9 +122,60 @@ public class StocksTest {
         }
     }
 
+    /**
+     * 如果连续3天价格一样，说明在停牌阶段，将停牌阶段的数值删掉(停牌当天不删)
+     * @param list
+     */
+    public static void filterSamePriceStockData(List<StockDailyPrice> list) {
+        Comparator<StockDailyPrice> c = new Comparator<StockDailyPrice>() {
+            public int compare(StockDailyPrice o1, StockDailyPrice o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        };
+        Collections.sort(list, c);
+        boolean flag = false;
+        int index = 0;
+        double currentClose = 0;
+        for (; ; ) {
+            if (index >= list.size()) {
+                break;
+            }
+            if (flag) {
+                if (list.get(index).getOpen() == currentClose && list.get(index).getClose() == currentClose) {
+                    list.remove(index);
+                    continue;
+                } else {
+                    flag = false;
+                    index++;
+                }
+            } else {
+                if (index + 3 < list.size()) {
+                    if (list.get(index).getOpen() == list.get(index).getClose() &&
+                            list.get(index + 1).getOpen() == list.get(index + 1).getClose() &&
+                            list.get(index + 2).getOpen() == list.get(index + 2).getClose() &&
+                            list.get(index).getOpen() == list.get(index + 1).getOpen() &&
+                            list.get(index).getOpen() == list.get(index + 2).getOpen()) {
+                        currentClose = list.get(index).getClose();
+                        flag = true;
+                        index ++;
+
+                    } else {
+                        index++;
+                        continue;
+                    }
+                } else {
+                    break;
+                }
+            }
+
+        }
+    }
+
     public static void main(String[] args) {
         loadStockInfo();
         loadStocks();
         calculateRelativityOfSomeCode("600170");
     }
+
+
 }

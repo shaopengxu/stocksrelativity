@@ -1,5 +1,7 @@
 package com.xsp.stocksrelativity;
 
+import com.xsp.stocksrelativity.entity.StockDailyPrice;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;

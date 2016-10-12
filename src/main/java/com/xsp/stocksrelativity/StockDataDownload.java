@@ -1,5 +1,6 @@
 package com.xsp.stocksrelativity;
 
+import com.xsp.stocksrelativity.entity.StockDailyPrice;
 import org.json.JSONObject;
 
 import java.io.*;

@@ -1,10 +1,9 @@
 package com.xsp.stocksrelativity;
 
+import com.xsp.stocksrelativity.entity.StockDailyPrice;
 import org.json.JSONObject;
 
-import javax.xml.transform.Templates;
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -123,7 +122,7 @@ public class StocksTest {
     }
 
     /**
-     * 如果连续3天价格一样，说明在停牌阶段，将停牌阶段的数值删掉(停牌当天不删)
+     * 如果连续3天价格一样，说明在停牌阶段，将停牌阶段的数�?�删�?(停牌当天不删)
      * @param list
      */
     public static void filterSamePriceStockData(List<StockDailyPrice> list) {

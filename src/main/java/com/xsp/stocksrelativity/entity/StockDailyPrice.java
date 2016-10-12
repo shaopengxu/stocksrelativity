@@ -1,10 +1,8 @@
-package com.xsp.stocksrelativity;
+package com.xsp.stocksrelativity.entity;
 
 import org.apache.commons.beanutils.BeanMap;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by zhangxiong on 2016-09-27.

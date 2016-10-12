@@ -1,6 +1,6 @@
 package com.xsp.stocksrelativity.dao;
 
-import com.xsp.stocksrelativity.StockDailyPrice;
+import com.xsp.stocksrelativity.entity.StockDailyPrice;
 
 import java.util.List;
 
@@ -10,4 +10,7 @@ import java.util.List;
 public interface StockDailyPriceMapper {
 
     List<StockDailyPrice> selectAll();
+
+    int insert(StockDailyPrice stockDailyPrice);
+
 }

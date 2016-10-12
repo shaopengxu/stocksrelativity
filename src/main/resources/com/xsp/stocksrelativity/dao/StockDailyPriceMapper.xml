@@ -6,4 +6,9 @@
     <select id="selectAll" resultType="StockDailyPrice">
         select * from stock_daily_price
     </select>
+
+    <insert id="insert" >
+        insert into stock_daily_price (code, date, open, close, high, low, volumn)
+            values( #{code}, #{date}, #{open}, #{close}, #{high}, #{low}, #{volumn})
+    </insert>
 </mapper>

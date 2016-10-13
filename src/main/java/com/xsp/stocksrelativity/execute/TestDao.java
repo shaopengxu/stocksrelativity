@@ -1,5 +1,7 @@
 package com.xsp.stocksrelativity.execute;
 
+import com.xsp.stocksrelativity.Stock;
+import com.xsp.stocksrelativity.StockDataDownload;
 import com.xsp.stocksrelativity.entity.StockDailyPrice;
 import com.xsp.stocksrelativity.dao.StockDailyPriceMapper;
 import org.apache.ibatis.io.Resources;
@@ -16,18 +18,35 @@ import java.util.List;
  */
 public class TestDao {
 
-    public static void main(String[] args) throws IOException {
+    public static void insertStockDailyPrice(String[] args) throws IOException {
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         SqlSession session = sqlSessionFactory.openSession();
         try {
+
             StockDailyPriceMapper mapper = session.getMapper(StockDailyPriceMapper.class);
-            List<StockDailyPrice> list = mapper.selectAll();
-            System.out.println(list.size());
+            StocksTest.loadStocks();
+            for (String code : StocksTest.map.keySet()) {
+                List<StockDailyPrice> list = StocksTest.map.get(code);
+                for (StockDailyPrice sdp : list) {
+                    sdp.setCode(code);
+                    sdp.setDate(sdp.getDate().replaceAll("\\-", ""));
+                    int count = mapper.insert(sdp);
+
+                }
+                session.commit();
+                System.out.println(code);
+            }
+
         } finally {
+
             session.close();
         }
+    }
+
+    public static void insertStockInfos() {
+
     }
 
 

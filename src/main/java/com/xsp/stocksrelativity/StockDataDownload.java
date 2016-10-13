@@ -59,7 +59,7 @@ public class StockDataDownload {
         List<StockDailyPrice> list = new ArrayList<StockDailyPrice>();
         try {
 
-            BufferedReader reader = new BufferedReader(new FileReader(szorsh+code+".txt"));
+            BufferedReader reader = new BufferedReader(new FileReader("stocks_data/"+szorsh+code+".txt"));
             for (String line; (line = reader.readLine()) != null; ) {
                 StockDailyPrice sdp = new StockDailyPrice();
                 String []ss = line.split(",");
@@ -172,8 +172,6 @@ public class StockDataDownload {
     }
 
     /**
-     * @param code example 000001.sz
-     * @param type
      * @return
      */
     public static void getFundData() {

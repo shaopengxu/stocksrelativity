@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xsp.stocksrelativity.dao.StockMapper">
+    <select id="selectAll" resultType="Stock">
+        select * from stock
+    </select>
+
+    <insert id="insert" >
+        insert into stock (code, name, type, country)
+            values( #{code}, #{name}, #{type}, #{country})
+    </insert>
+</mapper>

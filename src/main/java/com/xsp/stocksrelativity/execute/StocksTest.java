@@ -1,5 +1,8 @@
-package com.xsp.stocksrelativity;
+package com.xsp.stocksrelativity.execute;
 
+import com.xsp.stocksrelativity.Stock;
+import com.xsp.stocksrelativity.StockDataDownload;
+import com.xsp.stocksrelativity.StockRelativityCalculate;
 import com.xsp.stocksrelativity.entity.StockDailyPrice;
 import org.json.JSONObject;
 
@@ -16,7 +19,7 @@ public class StocksTest {
     static Map<String, Stock> stockMap = new HashMap<String, Stock>();
 
     public static void loadStocks() {
-        File file = new File(".");
+        File file = new File("stocks_data");
         String files[] = file.list();
         for (String filename : files) {
 

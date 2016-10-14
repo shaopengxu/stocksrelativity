@@ -1,7 +1,7 @@
 package com.xsp.stocksrelativity.entity;
 
 /**
- * Created by zhangxiong on 2016-10-12.
+ * Created by Shaopeng.Xu on 2016-10-12.
  */
 public class FundDailyNet {
 

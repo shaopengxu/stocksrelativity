@@ -6,7 +6,7 @@ import com.xsp.stocksrelativity.entity.StockDailyPrice;
 import java.util.*;
 
 /**
- * Created by zhangxiong on 2016-10-14.
+ * Created by Shaopeng.Xu on 2016-10-14.
  */
 public class CalculateStockRelativity {
 

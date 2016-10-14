@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by zhangxiong on 2016-10-14.
+ * Created by Shaopeng.Xu on 2016-10-14.
  */
 public class GetStockInfo {
 

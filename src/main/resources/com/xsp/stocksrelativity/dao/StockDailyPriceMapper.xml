@@ -7,6 +7,11 @@
         select * from stock_daily_price
     </select>
 
+    <select id="selectByCondition" resultType="StockDailyPrice">
+        select * from stock_daily_price s
+            where s.code = #{code}
+    </select>
+
     <insert id="insert" >
         insert into stock_daily_price (code, date, open, close, high, low, volumn)
             values( #{code}, #{date}, #{open}, #{close}, #{high}, #{low}, #{volumn})

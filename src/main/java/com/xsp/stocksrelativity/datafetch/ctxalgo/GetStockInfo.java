@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 /**
- * Created by zhangxiong on 2016-10-14.
+ * Created by Shaopeng.Xu on 2016-10-14.
  */
 public class GetStockInfo {
 

@@ -2,21 +2,22 @@ package com.xsp.stocksrelativity.entity;
 
 import org.apache.commons.beanutils.BeanMap;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 
 /**
- * Created by zhangxiong on 2016-09-27.
+ * Created by Shaopeng.Xu on 2016-09-27.
  */
 public class StockDailyPrice {
 
     private String code;
     private String date;
-    private double open;
-    private double high;
-    private double low;
-    private double close;
+    private BigDecimal open;
+    private BigDecimal high;
+    private BigDecimal low;
+    private BigDecimal close;
     private long volumn;
-    private double adjclose;
+    private BigDecimal adjclose;
     /**
      * 涨跌幅
      */
@@ -45,35 +46,35 @@ public class StockDailyPrice {
         this.date = date;
     }
 
-    public double getOpen() {
+    public BigDecimal getOpen() {
         return open;
     }
 
-    public void setOpen(double open) {
+    public void setOpen(BigDecimal open) {
         this.open = open;
     }
 
-    public double getHigh() {
+    public BigDecimal getHigh() {
         return high;
     }
 
-    public void setHigh(double high) {
+    public void setHigh(BigDecimal high) {
         this.high = high;
     }
 
-    public double getLow() {
+    public BigDecimal getLow() {
         return low;
     }
 
-    public void setLow(double low) {
+    public void setLow(BigDecimal low) {
         this.low = low;
     }
 
-    public double getClose() {
+    public BigDecimal getClose() {
         return close;
     }
 
-    public void setClose(double close) {
+    public void setClose(BigDecimal close) {
         this.close = close;
     }
 
@@ -93,11 +94,11 @@ public class StockDailyPrice {
         this.change = change;
     }
 
-    public double getAdjclose() {
+    public BigDecimal getAdjclose() {
         return adjclose;
     }
 
-    public void setAdjclose(double adjclose) {
+    public void setAdjclose(BigDecimal adjclose) {
         this.adjclose = adjclose;
     }
 

@@ -5,13 +5,14 @@ import com.xsp.stocksrelativity.entity.StockDailyPrice;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by zhangxiong on 2016-10-14.
+ * Created by Shaopeng.Xu on 2016-10-14.
  */
 public class GetStockDailyPrice {
 
@@ -25,13 +26,12 @@ public class GetStockDailyPrice {
                 String[] ss = line.split(",");
                 //Date	Open	High	Low	Close	Volume	Adj Close
                 sdp.setDate(ss[0]);
-                sdp.setOpen(Double.valueOf(ss[1]));
-                sdp.setHigh(Double.valueOf(ss[2]));
-                sdp.setLow(Double.valueOf(ss[3]));
-                sdp.setClose(Double.valueOf(ss[4]));
+                sdp.setOpen(new BigDecimal(ss[1]));
+                sdp.setHigh(new BigDecimal(ss[2]));
+                sdp.setLow(new BigDecimal(ss[3]));
+                sdp.setClose(new BigDecimal(ss[4]));
                 sdp.setVolumn(Long.valueOf(ss[5]));
-                sdp.setAdjclose(Double.valueOf(ss[6]));
-                sdp.setChange(sdp.getClose() / sdp.getOpen() - 1);
+                sdp.setAdjclose(new BigDecimal(ss[6]));
                 list.add(sdp);
                 //System.out.println(sdp);
             }

@@ -1,6 +1,6 @@
 package com.xsp.stocksrelativity.dao;
 
-import com.xsp.stocksrelativity.Stock;
+import com.xsp.stocksrelativity.entity.Stock;
 
 import java.util.List;
 

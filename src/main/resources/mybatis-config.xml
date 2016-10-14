@@ -21,6 +21,7 @@
     </environments>
     <mappers>
         <mapper resource="com/xsp/stocksrelativity/dao/StockDailyPriceMapper.xml"/>
+        <mapper resource="com/xsp/stocksrelativity/dao/StockMapper.xml"/>
     </mappers>
 
 </configuration>

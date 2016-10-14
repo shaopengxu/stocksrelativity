@@ -1,4 +1,4 @@
-package com.xsp.stocksrelativity;
+package com.xsp.stocksrelativity.entity;
 
 /**
  * Created by shpng on 2016/9/25.

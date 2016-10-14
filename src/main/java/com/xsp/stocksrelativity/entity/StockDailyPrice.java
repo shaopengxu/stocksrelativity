@@ -22,6 +22,13 @@ public class StockDailyPrice {
      */
     private double change;
 
+    public static void main(String args[]) {
+        StockDailyPrice s = new StockDailyPrice();
+        s.setChange(1);
+        s.setCode("1222");
+        System.out.println(s);
+    }
+
     public String getCode() {
         return code;
     }
@@ -97,12 +104,5 @@ public class StockDailyPrice {
     @Override
     public String toString() {
         return new HashMap(new BeanMap(this)).toString();
-    }
-
-    public static void main(String args[]) {
-        StockDailyPrice s = new StockDailyPrice();
-        s.setChange(1);
-        s.setCode("1222");
-        System.out.println(s);
     }
 }

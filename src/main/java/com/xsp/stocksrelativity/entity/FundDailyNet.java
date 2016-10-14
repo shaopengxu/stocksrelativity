@@ -1,4 +1,4 @@
-package com.xsp.stocksrelativity;
+package com.xsp.stocksrelativity.entity;
 
 /**
  * Created by zhangxiong on 2016-10-12.

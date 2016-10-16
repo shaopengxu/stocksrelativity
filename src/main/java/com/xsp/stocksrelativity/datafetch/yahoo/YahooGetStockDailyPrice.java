@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Shaopeng.Xu on 2016-10-14.
  */
-public class GetStockDailyPrice {
+public class YahooGetStockDailyPrice {
 
     /**
      * @param codeAndType example 000001.sz

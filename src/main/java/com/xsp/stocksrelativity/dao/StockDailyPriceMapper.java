@@ -12,7 +12,7 @@ public interface StockDailyPriceMapper {
 
     List<StockDailyPrice> selectAll();
 
-    List<StockDailyPrice> selectByCondition(@Param("code") String code);
+    List<StockDailyPrice> selectByCondition(@Param("code") String code, @Param("date")String date);
 
     int insert(StockDailyPrice stockDailyPrice);
 

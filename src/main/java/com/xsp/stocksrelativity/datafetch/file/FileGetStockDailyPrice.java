@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Created by Shaopeng.Xu on 2016-10-14.
  */
-public class GetStockDailyPrice {
+public class FileGetStockDailyPrice {
 
     public static List<StockDailyPrice> getStockDailyPrice(String code, String szorsh) {
         List<StockDailyPrice> list = new ArrayList<StockDailyPrice>();

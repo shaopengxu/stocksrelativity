@@ -25,7 +25,6 @@ public class StockDailyPrice {
 
     public static void main(String args[]) {
         StockDailyPrice s = new StockDailyPrice();
-        s.setChange(1);
         s.setCode("1222");
         System.out.println(s);
     }
@@ -87,12 +86,11 @@ public class StockDailyPrice {
     }
 
     public double getChange() {
-        return change;
+        double open_ = open.doubleValue();
+        double close_ = close.doubleValue();
+        return (close_ - open_) / open_;
     }
 
-    public void setChange(double change) {
-        this.change = change;
-    }
 
     public BigDecimal getAdjclose() {
         return adjclose;

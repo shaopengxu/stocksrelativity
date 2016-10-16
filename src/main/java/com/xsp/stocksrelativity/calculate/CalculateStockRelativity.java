@@ -3,6 +3,7 @@ package com.xsp.stocksrelativity.calculate;
 import com.xsp.stocksrelativity.entity.Stock;
 import com.xsp.stocksrelativity.entity.StockDailyPrice;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -97,13 +98,14 @@ public class CalculateStockRelativity {
         Collections.sort(list, c);
         boolean flag = false;
         int index = 0;
-        double currentClose = 0;
+        BigDecimal currentClose = new BigDecimal(0);
         for (; ; ) {
             if (index >= list.size()) {
                 break;
             }
             if (flag) {
-                if (list.get(index).getOpen() == currentClose && list.get(index).getClose() == currentClose) {
+                if (list.get(index).getOpen().compareTo(currentClose) == 0
+                        && list.get(index).getClose().compareTo(currentClose) == 0) {
                     list.remove(index);
                     continue;
                 } else {
@@ -112,11 +114,11 @@ public class CalculateStockRelativity {
                 }
             } else {
                 if (index + 3 < list.size()) {
-                    if (list.get(index).getOpen() == list.get(index).getClose() &&
-                            list.get(index + 1).getOpen() == list.get(index + 1).getClose() &&
-                            list.get(index + 2).getOpen() == list.get(index + 2).getClose() &&
-                            list.get(index).getOpen() == list.get(index + 1).getOpen() &&
-                            list.get(index).getOpen() == list.get(index + 2).getOpen()) {
+                    if (list.get(index).getOpen().compareTo(list.get(index).getClose()) == 0 &&
+                            list.get(index + 1).getOpen().compareTo(list.get(index + 1).getClose()) == 0 &&
+                            list.get(index + 2).getOpen().compareTo(list.get(index + 2).getClose()) == 0 &&
+                            list.get(index).getOpen().compareTo(list.get(index + 1).getOpen()) == 0 &&
+                            list.get(index).getOpen().compareTo(list.get(index + 2).getOpen()) == 0) {
                         currentClose = list.get(index).getClose();
                         flag = true;
                         index++;

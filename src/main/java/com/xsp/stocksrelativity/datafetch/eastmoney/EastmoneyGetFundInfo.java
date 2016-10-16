@@ -7,7 +7,7 @@ import java.net.URL;
 /**
  * Created by Shaopeng.Xu on 2016-10-14.
  */
-public class GetFundInfo {
+public class EastmoneyGetFundInfo {
 
     /**
      * @return

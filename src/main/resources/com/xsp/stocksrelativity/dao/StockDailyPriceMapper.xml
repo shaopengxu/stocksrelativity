@@ -9,7 +9,15 @@
 
     <select id="selectByCondition" resultType="StockDailyPrice">
         select * from stock_daily_price s
-            where s.code = #{code}
+        <where>
+            <if test="code != null">
+                and s.code = #{code}
+            </if>
+            <if test="date != null">
+                and s.date = #{date}
+            </if>
+
+        </where>
     </select>
 
     <insert id="insert" >

@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by Shaopeng.Xu on 2016-10-14.
  */
-public class GetStockInfo {
+public class FileGetStockInfo {
 
 
     public static String getStockInfo() {

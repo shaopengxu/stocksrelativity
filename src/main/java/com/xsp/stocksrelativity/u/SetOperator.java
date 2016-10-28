@@ -35,7 +35,7 @@ public class SetOperator {
 
     public static Set<Long> getSetCombination(Set<Long> set, int all, int count, int realCount) {
         int number = getCount(all, realCount);
-        Set<Long> newSet = new HashSet<Long>();
+        Set<Long> newSet = new HashSet<Long>(number * 2);
         outer:
         for (Long l : set) {
 
@@ -52,60 +52,92 @@ public class SetOperator {
         }
 
         if (count - 1 != 0) {
-            return getSetCombination(newSet, all, count - 1, realCount+ 1);
+            return getSetCombination(newSet, all, count - 1, realCount + 1);
         } else {
             return newSet;
         }
     }
 
-    public static Set<Long> getSetCombinationAnotherWay(int all, int count) {
+    public static Long[] getSetCombinationAnotherWay(int all, int count) {
+
         Map m = new HashMap();
         getSetCombinationAnotherWay(m, all, count);
         List<Integer> list = new ArrayList<Integer>(m.keySet());
         Collections.sort(list);
 
+//        Map<Integer, Integer> countMap = new HashMap<Integer, Integer>();
 
-        Map setMap = new HashMap();
+        Map setMap = new HashMap(m.size() * 2);
         for (Integer i : list) {
             int a = i / 10;
             int b = i % 10;
             if (b == 1) {
-                Set<Long> s = new HashSet();
+                Long[] s = new Long[a];
                 for (int index = 0; index < a; index++) {
-                    s.add(1l << index);
+                    s[index] = 1l << index;
+//                    s.add(1l << index);
                 }
                 setMap.put(i, s);
             } else if (a == b) {
-                Set<Long> s = new HashSet();
+                Long[] s = new Long[1];
                 long l = 0l;
                 for (int index = 0; index < a; index++) {
                     l = l | 1l << index;
                 }
-                s.add(l);
+                s[0] = l;
                 setMap.put(i, s);
-            } else{
-                Set s = new HashSet();
-                Set<Long> s0 = (Set) setMap.get((a-1) * 10 + b-1);
-                Set<Long> s1 = (Set) setMap.get((a-1) * 10 + b);
+            } else {
+                int value1 = (a - 1) * 10 + b - 1;
+                int value2 = (a - 1) * 10 + b;
+
+                Long[] s0 = (Long[]) setMap.get(value1);
+                Long[] s1 = (Long[]) setMap.get(value2);
+                Long[] s = new Long[s0.length + s1.length];
+//                if (b == 2 ) {
+//                    setMap.remove(value1);
+//                }
+//                if (b == count) {
+//                    setMap.remove(value2);
+//                }
+//                if(a - 1 == b){
+//                    setMap.remove(value2);
+//                }
+//                if (a == b) {
+//                    setMap.remove(value1);
+//                }
+//                if (countMap.get(value1) == null) {
+//                    countMap.put(value1, value1);
+//                }else{
+//                    setMap.remove(value1);
+//                }
+//                if (countMap.get(value2) == null) {
+//                    countMap.put(value2, value2);
+//                }else{
+//                    setMap.remove(value2);
+//                }
+
+                int index = 0;
                 if (s0 == null) {
-                    System.out.println("errors0");
-                }else{
-                    for(Long l : s0){
-                        s.add(l|1l<<(a-1));
+                    System.out.println("errors0 : " + value1);
+                } else {
+                    for (Long l : s0) {
+//                        s.add(l|1l<<(a-1));
+                        s[index++] = l | 1l << (a - 1);
                     }
                 }
                 if (s1 == null) {
-                    System.out.println("errors1");
-                }else{
-                    s.addAll(s1);
+                    System.out.println("errors1 : " + value2);
+                } else {
+//                    s.addAll(s1);
+                    System.arraycopy(s1, 0, s, index, s1.length);
                 }
                 setMap.put(i, s);
             }
         }
-        return (Set<Long>) setMap.get(all*10+count);
+        return (Long[]) setMap.get(all * 10 + count);
     }
 
-    public static void getSetCombinationAnotherWay(Map<Integer, Object[]> map,  int all, int count) {
+    public static void getSetCombinationAnotherWay(Map<Integer, Object[]> map, int all, int count) {
 
         int key = all * 10 + count;
 
@@ -117,7 +149,7 @@ public class SetOperator {
             if (map.get((all - 1) * 10 + count) != null) {
 
             } else {
-                 getSetCombinationAnotherWay(map, all - 1, count);
+                getSetCombinationAnotherWay(map, all - 1, count);
             }
             if (map.get((all - 1) * 10 + count - 1) != null) {
                 map.get((all - 1) * 10 + count - 1);
@@ -129,6 +161,7 @@ public class SetOperator {
         map.put(key, null);
     }
 
+
     public static void main(String[] args) {
 //        Set<Long> set = getSetCombination(5, 1);
 //        for (Long l : set) {
@@ -139,20 +172,26 @@ public class SetOperator {
 //        for (Long l : set) {
 //            System.out.print(Long.toBinaryString(l) + " ");
 //        }
+
+        int all = 55;
+        int count = 5;
         long start = System.currentTimeMillis();
-        System.out.println(getSetCombination(47, 5).size()); //1533939
+        System.out.println(getSetCombination(all, count).size()); //1533939
         System.out.println("cost : " + (System.currentTimeMillis() - start));
         System.out.println();
 //
 //        System.out.println(getCount(48,6) +getCount(48,5));
 //        System.out.println(getCount(49,6));
 
-        System.out.println(getCount(47,5));
+        System.out.println(getCount(all, count));
         Map m = new HashMap();
         start = System.currentTimeMillis();
-        Set<Long> set = getSetCombinationAnotherWay(47,7);
+        Long[] set = getSetCombinationAnotherWay(all, count);
         System.out.println("cost : " + (System.currentTimeMillis() - start));
-        System.out.println(set.size());
+        System.out.println(set.length);
+//        for (Long l : set) {
+//            System.out.print(Long.toBinaryString(l) + " ");
+//        }
     }
 
 }
